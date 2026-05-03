@@ -1,5 +1,12 @@
 const GAS_ENDPOINT = "https://script.google.com/macros/s/AKfycbzKEVSPRUVTEPVwHy7Jqs1NkzOLXnVC100fM4aEyk4oAP5CeqxGRdZk6qL5WnltTImIkw/exec";
 
+const LOGIN_ARTWORK = [
+  "images/cover.png",
+  "images/C1.png",
+  "images/C2.png",
+  "images/C3.png"
+];
+
 const POSTER_FILES = [
   "WSL-11.jpg",
   "WSL-12.png",
@@ -97,7 +104,9 @@ const state = {
     3: ""
   },
   filter: "",
-  dialogPosterId: ""
+  dialogPosterId: "",
+  loginArtIndex: 0,
+  loginArtTimer: 0
 };
 
 const $ = (selector) => document.querySelector(selector);
@@ -106,6 +115,7 @@ const elements = {
   loginView: $("#loginView"),
   galleryView: $("#galleryView"),
   loginForm: $("#loginForm"),
+  loginHeroImage: $("#loginHeroImage"),
   userInput: $("#userInput"),
   loginButton: $("#loginButton"),
   loginMessage: $("#loginMessage"),
@@ -126,6 +136,32 @@ const elements = {
   dialogImage: $("#dialogImage"),
   dialogTitle: $("#dialogTitle")
 };
+
+function renderLoginArtwork() {
+  const image = LOGIN_ARTWORK[state.loginArtIndex];
+  elements.loginHeroImage.classList.add("is-switching");
+
+  window.setTimeout(() => {
+    elements.loginHeroImage.src = image;
+    elements.loginHeroImage.classList.remove("is-switching");
+  }, 160);
+
+  document.querySelectorAll("[data-login-art]").forEach((button) => {
+    button.classList.toggle("is-active", Number(button.dataset.loginArt) === state.loginArtIndex);
+  });
+}
+
+function showLoginArtwork(index) {
+  state.loginArtIndex = (index + LOGIN_ARTWORK.length) % LOGIN_ARTWORK.length;
+  renderLoginArtwork();
+}
+
+function startLoginArtworkCarousel() {
+  window.clearInterval(state.loginArtTimer);
+  state.loginArtTimer = window.setInterval(() => {
+    showLoginArtwork(state.loginArtIndex + 1);
+  }, 4200);
+}
 
 function callGas(params) {
   return new Promise((resolve, reject) => {
@@ -478,4 +514,13 @@ document.addEventListener("keydown", (event) => {
   }
 });
 
+document.querySelectorAll("[data-login-art]").forEach((button) => {
+  button.addEventListener("click", () => {
+    showLoginArtwork(Number(button.dataset.loginArt));
+    startLoginArtworkCarousel();
+  });
+});
+
+renderLoginArtwork();
+startLoginArtworkCarousel();
 renderAll();

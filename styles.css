@@ -63,6 +63,11 @@ button:disabled {
   height: 100%;
   object-fit: cover;
   opacity: 0.9;
+  transition: opacity 320ms ease;
+}
+
+.login-art > img.is-switching {
+  opacity: 0.48;
 }
 
 .login-art::after {
@@ -82,7 +87,21 @@ button:disabled {
   gap: 12px;
 }
 
+.art-strip button {
+  display: block;
+  border: 0;
+  border-radius: 0;
+  padding: 0;
+  background: transparent;
+}
+
+.art-strip button.is-active img {
+  border-color: #fff;
+  box-shadow: 0 0 0 4px rgba(11, 122, 117, 0.55), 0 14px 30px rgba(0, 0, 0, 0.35);
+}
+
 .art-strip img {
+  display: block;
   width: 100%;
   aspect-ratio: 4 / 5;
   object-fit: cover;

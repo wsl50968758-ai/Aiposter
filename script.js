@@ -4,7 +4,9 @@ const LOGIN_ARTWORK = [
   "images/cover.png",
   "images/C1.png",
   "images/C2.png",
-  "images/C3.png"
+  "images/C3.png",
+  "images/c4.png",
+  "images/c5.png"
 ];
 
 const POSTER_FILES = [

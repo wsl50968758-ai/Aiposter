@@ -62,12 +62,6 @@ button:disabled {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  opacity: 0.9;
-  transition: opacity 320ms ease;
-}
-
-.login-art > img.is-switching {
-  opacity: 0.48;
 }
 
 .login-art::after {

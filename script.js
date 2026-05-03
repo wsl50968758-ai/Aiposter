@@ -141,12 +141,7 @@ const elements = {
 
 function renderLoginArtwork() {
   const image = LOGIN_ARTWORK[state.loginArtIndex];
-  elements.loginHeroImage.classList.add("is-switching");
-
-  window.setTimeout(() => {
-    elements.loginHeroImage.src = image;
-    elements.loginHeroImage.classList.remove("is-switching");
-  }, 160);
+  elements.loginHeroImage.src = image;
 
   document.querySelectorAll("[data-login-art]").forEach((button) => {
     button.classList.toggle("is-active", Number(button.dataset.loginArt) === state.loginArtIndex);

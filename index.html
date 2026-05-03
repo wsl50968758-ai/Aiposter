@@ -71,7 +71,11 @@
 
   <dialog id="posterDialog" class="poster-dialog">
     <button id="closeDialogButton" class="icon-button close-button" type="button" aria-label="關閉">×</button>
-    <img id="dialogImage" alt="">
+    <div class="dialog-viewer">
+      <button id="prevPosterButton" class="icon-button nav-button nav-prev" type="button" aria-label="上一張">‹</button>
+      <img id="dialogImage" alt="">
+      <button id="nextPosterButton" class="icon-button nav-button nav-next" type="button" aria-label="下一張">›</button>
+    </div>
     <div class="dialog-actions">
       <strong id="dialogTitle"></strong>
       <div>

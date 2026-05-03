@@ -121,6 +121,8 @@ const elements = {
   submitMessage: $("#submitMessage"),
   posterDialog: $("#posterDialog"),
   closeDialogButton: $("#closeDialogButton"),
+  prevPosterButton: $("#prevPosterButton"),
+  nextPosterButton: $("#nextPosterButton"),
   dialogImage: $("#dialogImage"),
   dialogTitle: $("#dialogTitle")
 };
@@ -342,7 +344,22 @@ function openPoster(posterId) {
   elements.dialogImage.alt = `作品 ${poster.id}`;
   elements.dialogTitle.textContent = poster.id;
   renderDialogActions();
-  elements.posterDialog.showModal();
+
+  if (!elements.posterDialog.open) {
+    elements.posterDialog.showModal();
+  }
+}
+
+function navigatePoster(direction) {
+  const visiblePosters = getFilteredPosters();
+  const activeIndex = visiblePosters.findIndex((poster) => poster.id === state.dialogPosterId);
+
+  if (!visiblePosters.length || activeIndex < 0) {
+    return;
+  }
+
+  const nextIndex = (activeIndex + direction + visiblePosters.length) % visiblePosters.length;
+  openPoster(visiblePosters[nextIndex].id);
 }
 
 async function submitVotes() {
@@ -425,6 +442,14 @@ elements.closeDialogButton.addEventListener("click", () => {
   elements.posterDialog.close();
 });
 
+elements.prevPosterButton.addEventListener("click", () => {
+  navigatePoster(-1);
+});
+
+elements.nextPosterButton.addEventListener("click", () => {
+  navigatePoster(1);
+});
+
 elements.posterDialog.addEventListener("click", (event) => {
   if (event.target === elements.posterDialog) {
     elements.posterDialog.close();
@@ -435,6 +460,22 @@ elements.posterDialog.querySelectorAll("[data-dialog-rank]").forEach((button) =>
   button.addEventListener("click", () => {
     selectPoster(button.dataset.dialogRank, state.dialogPosterId);
   });
+});
+
+document.addEventListener("keydown", (event) => {
+  if (!elements.posterDialog.open) {
+    return;
+  }
+
+  if (event.key === "ArrowLeft") {
+    event.preventDefault();
+    navigatePoster(-1);
+  }
+
+  if (event.key === "ArrowRight") {
+    event.preventDefault();
+    navigatePoster(1);
+  }
 });
 
 renderAll();

@@ -449,12 +449,19 @@ input:focus-visible {
   background: rgba(24, 24, 24, 0.68);
 }
 
+.dialog-viewer {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: min(78vh, 620px);
+  background: #ece8df;
+}
+
 .poster-dialog img {
   display: block;
   width: 100%;
   max-height: 78vh;
   object-fit: contain;
-  background: #ece8df;
 }
 
 .dialog-actions {
@@ -483,6 +490,33 @@ input:focus-visible {
   background: rgba(0, 0, 0, 0.58);
   font-size: 1.6rem;
   line-height: 1;
+}
+
+.nav-button {
+  position: absolute;
+  top: 50%;
+  z-index: 2;
+  width: 52px;
+  height: 72px;
+  border-radius: 8px;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.54);
+  font-size: 3rem;
+  line-height: 1;
+  transform: translateY(-50%);
+}
+
+.nav-button:hover,
+.nav-button:focus-visible {
+  background: rgba(7, 92, 88, 0.9);
+}
+
+.nav-prev {
+  left: 14px;
+}
+
+.nav-next {
+  right: 14px;
 }
 
 [hidden] {
@@ -547,5 +581,19 @@ input:focus-visible {
   .poster-card {
     grid-template-rows: minmax(190px, 1fr) auto;
     min-height: 288px;
+  }
+
+  .nav-button {
+    width: 42px;
+    height: 58px;
+    font-size: 2.4rem;
+  }
+
+  .nav-prev {
+    left: 8px;
+  }
+
+  .nav-next {
+    right: 8px;
   }
 }

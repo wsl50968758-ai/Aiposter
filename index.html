@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>參賽海報作品評選</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="app-shell">
+    <section id="loginView" class="login-view" aria-labelledby="loginTitle">
+      <div class="login-art" aria-hidden="true">
+        <img src="images/WSL-11.jpg" alt="">
+        <div class="art-strip">
+          <img src="images/WSL-23.jpg" alt="">
+          <img src="images/WSL-52.jpeg" alt="">
+          <img src="images/WSL-75.jpg" alt="">
+        </div>
+      </div>
+
+      <form id="loginForm" class="login-panel">
+        <p class="eyebrow">AI3D Poster Award</p>
+        <h1 id="loginTitle">參賽海報作品評選</h1>
+        <label for="userInput">登入帳號</label>
+        <div class="input-row">
+          <input id="userInput" name="user" type="email" autocomplete="email" placeholder="name@wsl-light.com" required>
+          <button id="loginButton" type="submit">登入</button>
+        </div>
+        <p id="loginMessage" class="message" role="status" aria-live="polite"></p>
+      </form>
+    </section>
+
+    <section id="galleryView" class="gallery-view" hidden>
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">Poster Selection</p>
+          <h2>作品評選</h2>
+        </div>
+        <div class="account-chip">
+          <span id="currentUser"></span>
+          <button id="logoutButton" type="button" aria-label="登出">登出</button>
+        </div>
+      </header>
+
+      <section class="control-band" aria-label="評選控制">
+        <div class="search-wrap">
+          <label for="searchInput">搜尋編號</label>
+          <input id="searchInput" type="search" placeholder="輸入 WSL-11 或 11">
+        </div>
+        <div class="selection-summary" id="selectionSummary"></div>
+        <button id="submitButton" class="submit-button" type="button" disabled>送出評選</button>
+      </section>
+
+      <section class="content-grid">
+        <aside class="rank-panel" aria-label="目前評選名單">
+          <h3>評選名單</h3>
+          <ol id="rankList" class="rank-list"></ol>
+          <p id="submitMessage" class="message" role="status" aria-live="polite"></p>
+        </aside>
+
+        <section>
+          <div class="gallery-meta">
+            <span id="posterCount"></span>
+            <span id="filterCount"></span>
+          </div>
+          <div id="posterGrid" class="poster-grid" aria-live="polite"></div>
+        </section>
+      </section>
+    </section>
+  </main>
+
+  <dialog id="posterDialog" class="poster-dialog">
+    <button id="closeDialogButton" class="icon-button close-button" type="button" aria-label="關閉">×</button>
+    <img id="dialogImage" alt="">
+    <div class="dialog-actions">
+      <strong id="dialogTitle"></strong>
+      <div>
+        <button class="rank-button" type="button" data-dialog-rank="1">第 1 名</button>
+        <button class="rank-button" type="button" data-dialog-rank="2">第 2 名</button>
+        <button class="rank-button" type="button" data-dialog-rank="3">第 3 名</button>
+      </div>
+    </div>
+  </dialog>
+
+  <script src="script.js"></script>
+</body>
+</html>

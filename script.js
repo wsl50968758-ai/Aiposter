@@ -160,7 +160,53 @@ function startLoginArtworkCarousel() {
   }, 4200);
 }
 
-function callGas(params) {
+function wait(ms) {
+  return new Promise((resolve) => window.setTimeout(resolve, ms));
+}
+
+async function callGas(params) {
+  const attempts = 2;
+
+  for (let attempt = 1; attempt <= attempts; attempt += 1) {
+    try {
+      return await callGasFetch(params);
+    } catch (error) {
+      if (attempt === attempts) {
+        break;
+      }
+
+      await wait(650 * attempt);
+    }
+  }
+
+  return callGasJsonp(params);
+}
+
+async function callGasFetch(params) {
+  const url = new URL(GAS_ENDPOINT);
+  Object.entries(params).forEach(([key, value]) => url.searchParams.set(key, value));
+  url.searchParams.set("_", Date.now().toString());
+
+  const controller = new AbortController();
+  const timeout = window.setTimeout(() => controller.abort(), 12000);
+
+  try {
+    const response = await fetch(url.toString(), {
+      cache: "no-store",
+      signal: controller.signal
+    });
+
+    if (!response.ok) {
+      throw new Error(`Google Apps Script 回應異常：${response.status}`);
+    }
+
+    return await response.json();
+  } finally {
+    window.clearTimeout(timeout);
+  }
+}
+
+function callGasJsonp(params) {
   return new Promise((resolve, reject) => {
     const callbackName = `gasCallback_${Date.now()}_${Math.random().toString(16).slice(2)}`;
     const url = new URL(GAS_ENDPOINT);
@@ -187,7 +233,8 @@ function callGas(params) {
 
     script.onerror = () => {
       cleanup();
-      reject(new Error("無法連線到 Google Apps Script。"));
+      const offlineHint = navigator.onLine ? "" : "目前網路似乎離線。";
+      reject(new Error(`${offlineHint}無法連線到 Google Apps Script，請稍後再試。`));
     };
 
     script.src = url.toString();

@@ -108,7 +108,8 @@ const state = {
   filter: "",
   dialogPosterId: "",
   loginArtIndex: 0,
-  loginArtTimer: 0
+  loginArtTimer: 0,
+  completionTimer: 0
 };
 
 const $ = (selector) => document.querySelector(selector);
@@ -135,6 +136,7 @@ const elements = {
   closeDialogButton: $("#closeDialogButton"),
   prevPosterButton: $("#prevPosterButton"),
   nextPosterButton: $("#nextPosterButton"),
+  completionDialog: $("#completionDialog"),
   dialogImage: $("#dialogImage"),
   dialogTitle: $("#dialogTitle")
 };
@@ -245,6 +247,18 @@ function callGasJsonp(params) {
 function setMessage(element, text, type = "") {
   element.textContent = text;
   element.className = `message ${type}`.trim();
+}
+
+function showCompletionDialog() {
+  window.clearTimeout(state.completionTimer);
+
+  if (!elements.completionDialog.open) {
+    elements.completionDialog.showModal();
+  }
+
+  state.completionTimer = window.setTimeout(() => {
+    elements.completionDialog.close();
+  }, 3000);
 }
 
 function normalizeSelection(votes = {}) {
@@ -470,6 +484,7 @@ async function submitVotes() {
     }
 
     setMessage(elements.submitMessage, "評選已送出，可再次修改後重送。", "success");
+    showCompletionDialog();
   } catch (error) {
     setMessage(elements.submitMessage, error.message, "error");
   } finally {
